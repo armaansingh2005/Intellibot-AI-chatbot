@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Admin dashboard | IntelliBot AI{% endblock %}
+{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script><link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+  <div class="dashboard-heading">
+    <div><span class="eyebrow">OVERVIEW</span><h1>Support dashboard</h1><p>Understand what customers need and how IntelliBot is helping.</p></div>
+    <div class="dashboard-actions"><a class="outline-button" href="{{ url_for('admin_api.export_conversations') }}">↓ Export CSV</a><form method="post" action="{{ url_for('admin.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-button">Sign out</button></form></div>
+  </div>
+  <div id="dashboard-error" class="alert-error hidden" role="alert"></div>
+  <div class="kpi-grid">
+    <article class="kpi-card"><span class="kpi-label">Conversations</span><strong id="kpi-conversations">—</strong><small>All time</small><span class="kpi-glyph">◫</span></article>
+    <article class="kpi-card"><span class="kpi-label">Messages</span><strong id="kpi-messages">—</strong><small>Across all conversations</small><span class="kpi-glyph">✉</span></article>
+    <article class="kpi-card"><span class="kpi-label">Avg. messages / chat</span><strong id="kpi-average">—</strong><small>Conversation depth</small><span class="kpi-glyph">↗</span></article>
+    <article class="kpi-card"><span class="kpi-label">Top intent</span><strong id="kpi-intent">—</strong><small>Most common question type</small><span class="kpi-glyph">✦</span></article>
+    <article class="kpi-card"><span class="kpi-label">Fallback rate</span><strong id="kpi-fallback">—</strong><small>Assistant responses needing follow-up</small><span class="kpi-glyph">?</span></article>
+    <article class="kpi-card"><span class="kpi-label">Avg. response time</span><strong id="kpi-response">—</strong><small>Processing time in milliseconds</small><span class="kpi-glyph">◷</span></article>
+  </div>
+  <div class="chart-grid">
+    <article class="surface chart-card chart-wide"><div class="section-title"><div><h2>Activity over time</h2><p>Daily conversations and messages · last 7 days</p></div></div><div class="chart-wrap"><canvas id="activity-chart" aria-label="Daily conversation and message volumes"></canvas></div></article>
+    <article class="surface chart-card"><div class="section-title"><div><h2>Intent distribution</h2><p>What people ask about</p></div></div><div class="chart-wrap chart-donut"><canvas id="intent-chart" aria-label="Conversation intent distribution"></canvas></div></article>
+  </div>
+  <div class="admin-lower-grid">
+    <section class="surface table-card"><div class="section-title"><div><h2>Recent conversations</h2><p id="conversation-total">Browse customer support activity</p></div><a href="#conversation-table">View all</a></div>
+      <form id="conversation-search" class="filter-row"><input id="search-query" placeholder="Search message text…" aria-label="Search conversations"><input id="intent-filter" placeholder="Intent filter" aria-label="Filter by intent"><label class="date-filter">From<input id="date-from" type="date" aria-label="Start date"></label><label class="date-filter">To<input id="date-to" type="date" aria-label="End date"></label><button class="outline-button">Search</button></form>
+      <div class="table-scroll"><table><thead><tr><th>Conversation</th><th>Last message</th><th>Messages</th><th>Last active</th><th></th></tr></thead><tbody id="conversation-rows"></tbody></table></div>
+      <div class="pagination"><button id="page-previous" class="outline-button" disabled>← Previous</button><span id="page-indicator">Page 1</span><button id="page-next" class="outline-button" disabled>Next →</button></div>
+    </section>
+    <section class="surface table-card"><div class="section-title"><div><h2>Frequently asked</h2><p>Repeated questions from visitors</p></div></div><div id="frequent-questions" class="compact-list"></div><div class="section-title fallback-heading"><div><h2>Needs a closer look</h2><p>Questions the assistant couldn’t fully answer</p></div></div><div id="fallback-questions" class="compact-list"></div></section>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>{% endblock %}

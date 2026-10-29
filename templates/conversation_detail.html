@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Conversation #{{ conversation.id }} | IntelliBot AI{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">{% endblock %}
+{% block content %}
+<section class="dashboard-shell detail-shell">
+  <a class="back-link" href="{{ url_for('admin.dashboard') }}">← Back to dashboard</a>
+  <div class="dashboard-heading"><div><span class="eyebrow">CONVERSATION DETAIL</span><h1>Conversation #{{ conversation.id }}</h1><p>Started {{ conversation.created_at.strftime('%b %d, %Y · %H:%M UTC') }} · {{ conversation.messages|length }} messages</p></div><a class="outline-button" href="{{ url_for('admin_api.export_conversations') }}">↓ Export CSV</a></div>
+  <section class="surface admin-transcript">
+    {% if conversation.messages %}
+      {% for message in conversation.messages %}
+      <article class="transcript-message {{ 'transcript-user' if message.role == 'user' else 'transcript-bot' }}">
+        <div class="transcript-meta"><strong>{{ 'Visitor' if message.role == 'user' else 'IntelliBot' }}</strong><time>{{ message.created_at.strftime('%b %d · %H:%M UTC') }}</time>{% if message.intent %}<span class="intent-tag">{{ message.intent|replace('_', ' ') }}</span>{% endif %}</div>
+        <p>{{ message.content }}</p>
+      </article>
+      {% endfor %}
+    {% else %}<div class="empty-state"><h2>No messages</h2><p>This conversation has no recorded messages.</p></div>{% endif %}
+  </section>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Conversation history | IntelliBot AI{% endblock %}
+{% block content %}
+<section class="page-shell">
+  <div class="page-heading">
+    <div><span class="eyebrow">YOUR SUPPORT SPACE</span><h1>Conversation history</h1><p>Pick up where you left off, or start a fresh conversation.</p></div>
+    <a class="primary-link" href="{{ url_for('chat.index') }}">＋ New conversation</a>
+  </div>
+  <div class="history-layout">
+    <section class="surface history-list-panel">
+      <div class="section-title"><h2>Recent conversations</h2><span id="history-count" class="count-pill">—</span></div>
+      <div id="history-list" class="history-list"><p class="muted">Loading your conversations…</p></div>
+    </section>
+    <section class="surface history-detail-panel">
+      <div id="history-detail" class="history-detail empty-state"><div class="empty-icon">◷</div><h2>Your conversations, together</h2><p>Select a conversation to see its messages.</p></div>
+    </section>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/history.js') }}" defer></script>{% endblock %}

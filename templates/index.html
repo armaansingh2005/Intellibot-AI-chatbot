@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Chat with IntelliBot | Customer Support{% endblock %}
+{% block content %}
+<section class="chat-layout">
+  <aside class="welcome-panel">
+    <span class="eyebrow"><span class="status-dot"></span> SUPPORT, SIMPLIFIED</span>
+    <h1>Answers that<br><span>move you forward.</span></h1>
+    <p>Get clear, helpful answers to common questions. Our assistant is ready whenever you are.</p>
+    <div class="trust-row"><span class="trust-icon">✦</span><span>Helpful, always-on support</span></div>
+    <div class="trust-row"><span class="trust-icon">◷</span><span>Your conversations stay private</span></div>
+    <div class="side-note"><div class="avatar avatar-small">i</div><span><strong>IntelliBot</strong><br><small>Here to help, around the clock</small></span><span class="online-dot"></span></div>
+  </aside>
+  <section class="chat-card" aria-label="Chat with customer support">
+    <header class="chat-header">
+      <div class="avatar">i</div>
+      <div class="chat-title"><strong>IntelliBot Assistant</strong><span><i class="online-dot"></i> Online · typically replies instantly</span></div>
+      <button id="clear-chat" class="icon-button clear-button" type="button" aria-label="Clear this conversation" title="Clear this conversation">⌫</button>
+      <button id="new-chat" class="icon-button" type="button" aria-label="Start a new conversation" title="New conversation">＋</button>
+    </header>
+    <div id="chat-messages" class="message-list" role="log" aria-live="polite" aria-relevant="additions"></div>
+    <div id="typing-indicator" class="typing hidden" aria-label="Assistant is typing"><span></span><span></span><span></span></div>
+    <div id="suggestions" class="suggestion-row"></div>
+    <form id="chat-form" class="composer">
+      <label class="sr-only" for="message-input">Your message</label>
+      <input id="message-input" name="message" maxlength="2000" autocomplete="off" placeholder="Ask us anything..." required>
+      <button class="send-button" type="submit" aria-label="Send message"><span>Send</span><b>↑</b></button>
+    </form>
+    <div class="privacy-note"><span>▣</span> Please don’t share passwords or payment details.</div>
+  </section>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/chat.js') }}" defer></script>{% endblock %}

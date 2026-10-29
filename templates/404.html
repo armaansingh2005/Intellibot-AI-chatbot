@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Page not found | IntelliBot AI{% endblock %}
+{% block content %}<section class="error-page"><span class="eyebrow">404 · NOT FOUND</span><h1>That page wandered off.</h1><p>We couldn’t find the page you were looking for.</p><a class="primary-link" href="{{ url_for('chat.index') }}">Back to the assistant</a></section>{% endblock %}
